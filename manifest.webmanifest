@@ -1,0 +1,17 @@
+{
+  "name": "Correlativas Ingeniería Química",
+  "short_name": "Correlativas IQ",
+  "description": "Mapa del plan de Ingeniería Química (UTN) para cargar tus materias y ver cuáles podés cursar.",
+  "lang": "es-AR",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#EEF1F5",
+  "theme_color": "#16202C",
+  "icons": [
+    {"src": "icon-192.png", "sizes": "192x192", "type": "image/png"},
+    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png"},
+    {"src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ]
+}

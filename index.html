@@ -1,0 +1,470 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#16202C">
+<meta name="description" content="Mapa del plan de Ingeniería Química (UTN) para cargar tus materias y ver cuáles podés cursar.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Correlativas IQ">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}</style>
+<title>Correlativas IQ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+<style>
+/* Layout: tablero de 6 columnas (5 niveles + electivas) que se apila en el teléfono; panel de detalle lateral / hoja inferior */
+:root{
+  --paper:#EEF1F5; --card:#FFFFFF; --ink:#16202C; --muted:#5A6676; --line:#C9D1DB; --hatch:rgba(22,32,44,.07);
+  --ok:#1C7F46; --ok-bg:#D9F1E2; --ok-bd:#58B67F;
+  --fin:#8A6400; --fin-bg:#FBEDB8; --fin-bd:#E1B21C;
+  --redo:#B5302A; --redo-bg:#F9D9D5; --redo-bd:#E07065;
+  --now:#1E58B8; --now-bg:#DAE6FA; --now-bd:#6E9BE6;
+  --focus:#1E58B8;
+  --f-display:"Barlow Condensed","Arial Narrow",system-ui,sans-serif;
+  --f-body:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#0E131A; --card:#171F29; --ink:#E5EAF0; --muted:#94A0AE; --line:#2C3644; --hatch:rgba(229,234,240,.06);
+  --ok:#74D49C; --ok-bg:#12321F; --ok-bd:#2F7A4E;
+  --fin:#F1CB55; --fin-bg:#372C0A; --fin-bd:#8E6E10;
+  --redo:#F28B80; --redo-bg:#3A1614; --redo-bd:#93382F;
+  --now:#86B2FF; --now-bg:#132744; --now-bd:#365F9E;
+  --focus:#86B2FF; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0E131A; --card:#171F29; --ink:#E5EAF0; --muted:#94A0AE; --line:#2C3644; --hatch:rgba(229,234,240,.06);
+  --ok:#74D49C; --ok-bg:#12321F; --ok-bd:#2F7A4E;
+  --fin:#F1CB55; --fin-bg:#372C0A; --fin-bd:#8E6E10;
+  --redo:#F28B80; --redo-bg:#3A1614; --redo-bd:#93382F;
+  --now:#86B2FF; --now-bg:#132744; --now-bd:#365F9E;
+  --focus:#86B2FF; color-scheme:dark}
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.4}
+.wrap{max-width:1500px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 40px;display:grid;gap:18px}
+h1,h2,h3{font-family:var(--f-display);font-weight:700;margin:0;text-wrap:balance;letter-spacing:.01em}
+h1{font-size:clamp(30px,5vw,44px);line-height:1}
+.eyebrow{font-family:var(--f-display);font-weight:600;text-transform:uppercase;letter-spacing:.12em;font-size:13px;color:var(--muted)}
+header.top{display:flex;flex-wrap:wrap;gap:14px 28px;align-items:end;justify-content:space-between}
+.how{color:var(--muted);max-width:62ch;margin:6px 0 0}
+
+/* resumen */
+.summary{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:18px}
+@media (max-width:860px){.summary{grid-template-columns:minmax(0,1fr)}}
+.box{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:grid;gap:10px;min-width:0}
+.bar{display:flex;height:12px;border-radius:6px;overflow:hidden;background:var(--hatch);border:1px solid var(--line)}
+.bar span{display:block;height:100%;transition:width .3s}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:14px}
+.legend b{font-family:var(--f-display);font-size:18px;font-variant-numeric:tabular-nums;margin-right:3px}
+.sw{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:6px;vertical-align:-1px;border:1px solid}
+.sw.aprobada{background:var(--ok-bg);border-color:var(--ok-bd)}
+.sw.final{background:var(--fin-bg);border-color:var(--fin-bd)}
+.sw.recursar{background:var(--redo-bg);border-color:var(--redo-bd)}
+.sw.cursando{background:var(--now-bg);border-color:var(--now-bd)}
+.sw.none{background:var(--card);border-color:var(--line)}
+.stats{display:flex;flex-wrap:wrap;gap:6px 22px;font-size:14px;color:var(--muted)}
+.stats strong{color:var(--ink);font-family:var(--f-display);font-size:20px;font-variant-numeric:tabular-nums}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font:inherit;font-size:13px;border:1px solid var(--ink);background:var(--card);color:var(--ink);border-radius:999px;padding:4px 10px;cursor:pointer;display:inline-flex;gap:6px;align-items:baseline}
+.chip .n{font-family:var(--f-display);font-weight:700}
+.chip.redo{border-color:var(--redo-bd)}
+.empty{color:var(--muted);font-size:14px;margin:0}
+
+/* filtros */
+.toolbar{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;justify-content:space-between}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--card)}
+.seg button{font:inherit;font-size:14px;border:0;background:transparent;color:var(--ink);padding:7px 12px;cursor:pointer}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.hint{font-size:13px;color:var(--muted)}
+
+/* mapa */
+.map{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:14px;align-items:start}
+@media (max-width:1250px){.map{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:760px){.map{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:480px){.map{grid-template-columns:minmax(0,1fr)}}
+.col{display:grid;gap:8px;min-width:0}
+.colhead{display:flex;justify-content:space-between;align-items:baseline;border-bottom:2px solid var(--ink);padding-bottom:4px}
+.colhead h2{font-size:22px;text-transform:uppercase;letter-spacing:.04em}
+.colhead span{font-family:var(--f-display);font-size:16px;color:var(--muted);font-variant-numeric:tabular-nums}
+.cw{position:relative}
+.card{width:100%;text-align:left;font:inherit;color:var(--ink);background:var(--card);border:1.5px solid var(--line);border-radius:8px;padding:8px 34px 8px 10px;cursor:pointer;display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:9px;row-gap:3px;align-items:start;transition:background .15s,border-color .15s,opacity .15s,transform .1s;-webkit-tap-highlight-color:transparent}
+.card:active{transform:scale(.985)}
+.card:focus-visible,.info:focus-visible,.chip:focus-visible,.seg button:focus-visible,.pbtn:focus-visible,button:focus-visible{outline:2.5px solid var(--focus);outline-offset:2px}
+.num{font-family:var(--f-display);font-weight:700;font-size:22px;line-height:1;min-width:1.6em;font-variant-numeric:tabular-nums}
+.name{font-weight:700;font-size:14px;line-height:1.25;overflow-wrap:anywhere}
+.meta{grid-column:2;font-size:12.5px;color:var(--muted);line-height:1.3}
+.tag{display:inline-block;font-family:var(--f-display);font-weight:600;font-size:13px;letter-spacing:.06em;text-transform:uppercase}
+.info{position:absolute;top:6px;right:6px;width:26px;height:26px;border-radius:6px;border:1px solid transparent;background:transparent;color:var(--muted);cursor:pointer;display:grid;place-items:center;padding:0}
+.info:hover{border-color:var(--line);background:var(--paper)}
+.info svg{width:16px;height:16px}
+
+.card.avail{border-color:var(--ink)}
+.card.avail .tag{color:var(--ink)}
+.card.blocked{background:repeating-linear-gradient(135deg,var(--card) 0 7px,var(--hatch) 7px 9px);border-style:dashed}
+.card.blocked .name,.card.blocked .num{color:var(--muted)}
+.card.s-aprobada{background:var(--ok-bg);border-color:var(--ok-bd)}
+.card.s-aprobada .tag{color:var(--ok)}
+.card.s-final{background:var(--fin-bg);border-color:var(--fin-bd)}
+.card.s-final .tag{color:var(--fin)}
+.card.s-recursar{background:var(--redo-bg);border-color:var(--redo-bd)}
+.card.s-recursar .tag{color:var(--redo)}
+.card.s-cursando{background:var(--now-bg);border-color:var(--now-bd)}
+.card.s-cursando .tag{color:var(--now)}
+.card.s-recursar .name,.card.s-recursar .num{color:var(--ink)}
+
+.map.focus .cw{opacity:.28}
+.map.focus .cw.f-self,.map.focus .cw.f-req,.map.focus .cw.f-unl{opacity:1}
+.cw.f-self .card{box-shadow:0 0 0 3px var(--ink)}
+.cw.f-req .card{box-shadow:0 0 0 2px var(--muted)}
+.map.dimfilter .cw.off{opacity:.25}
+
+/* panel */
+.panel{position:fixed;z-index:20;top:0;right:0;bottom:0;width:min(420px,100%);background:var(--card);border-left:1px solid var(--line);box-shadow:-10px 0 30px rgba(0,0,0,.12);overflow-y:auto;padding:calc(18px + env(safe-area-inset-top,0px)) max(18px,env(safe-area-inset-right,0px)) calc(24px + env(safe-area-inset-bottom,0px)) 18px;display:grid;gap:16px;align-content:start}
+@media (max-width:600px){.panel{top:auto;left:0;width:100%;max-height:78vh;border-left:0;border-top:1px solid var(--line);border-radius:14px 14px 0 0;box-shadow:0 -10px 30px rgba(0,0,0,.18);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}}
+.phead{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:start}
+.phead .num{font-size:38px}
+.phead h3{font-size:24px;line-height:1.05}
+.close{font:inherit;font-size:22px;line-height:1;width:34px;height:34px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
+.pmeta{font-size:13px;color:var(--muted);margin-top:4px}
+.pstates{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+@media (max-width:380px){.pstates{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.pbtn{font:inherit;font-size:12.5px;line-height:1.15;border:1.5px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);padding:8px 4px;cursor:pointer;display:grid;gap:4px;justify-items:center;text-align:center}
+.pbtn .sw{margin:0;width:14px;height:14px}
+.pbtn:disabled{opacity:.4;cursor:not-allowed}
+.warnline{color:var(--redo);font-weight:700}
+.card.nope{animation:nope .35s}
+@keyframes nope{0%,100%{transform:none}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.toast{position:fixed;z-index:30;left:50%;transform:translateX(-50%);bottom:calc(20px + env(safe-area-inset-bottom,0px));max-width:min(460px,calc(100% - 32px));background:var(--ink);color:var(--paper);border-radius:10px;padding:10px 14px;font-size:14px;box-shadow:0 8px 24px rgba(0,0,0,.25)}
+.pbtn[aria-pressed="true"]{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink);font-weight:700}
+.verdict{border-radius:8px;padding:10px 12px;font-size:14px;border:1px solid var(--line)}
+.verdict.yes{border-color:var(--ink)}
+.verdict.no{background:repeating-linear-gradient(135deg,var(--card) 0 7px,var(--hatch) 7px 9px);border-style:dashed}
+.rlist{list-style:none;margin:0;padding:0;display:grid;gap:4px}
+.rlist button{width:100%;font:inherit;font-size:14px;text-align:left;color:var(--ink);background:transparent;border:0;border-radius:6px;padding:5px 6px;cursor:pointer;display:grid;grid-template-columns:20px 2.2em minmax(0,1fr);gap:6px;align-items:baseline}
+.rlist button:hover{background:var(--paper)}
+.rlist .mk{font-weight:700}
+.rlist .mk.ok{color:var(--ok)}
+.rlist .mk.no{color:var(--redo)}
+.rlist .n{font-family:var(--f-display);font-weight:700;font-size:16px}
+.rlist small{color:var(--muted)}
+.psec{display:grid;gap:6px}
+.psec h4{margin:0;font-family:var(--f-display);font-size:14px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-weight:600}
+
+/* respaldo */
+details.backup{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 16px}
+details.backup summary{cursor:pointer;font-family:var(--f-display);font-weight:600;font-size:17px}
+.brow{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.btn{font:inherit;font-size:14px;border:1px solid var(--ink);background:var(--card);color:var(--ink);border-radius:8px;padding:7px 12px;cursor:pointer}
+.btn.danger{border-color:var(--redo-bd);color:var(--redo)}
+textarea{width:100%;min-height:70px;margin-top:10px;font:12px/1.4 ui-monospace,Menlo,Consolas,monospace;background:var(--paper);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:8px}
+.msg{font-size:13px;color:var(--muted);margin:8px 0 0;min-height:1em}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <div class="eyebrow">UTN · Plan de estudios</div>
+      <h1>Ingeniería Química</h1>
+      <p class="how">Tocá una materia disponible para cambiar su estado: <b>aprobada</b> (verde), <b>debés final</b> (amarillo), <b>recursar</b> (rojo), <b>cursando</b> (azul) y de nuevo <b>sin cargar</b>. El ícono <b>i</b> muestra sus correlativas. Lo que cargás se guarda en este navegador.</p>
+    </div>
+  </header>
+
+  <section class="summary" aria-label="Resumen">
+    <div class="box">
+      <div class="eyebrow">Avance de la carrera</div>
+      <div class="bar" id="bar" aria-hidden="true"></div>
+      <div class="legend" id="legend"></div>
+      <div class="stats" id="stats"></div>
+    </div>
+    <div class="box">
+      <div class="eyebrow">Podés cursar ahora</div>
+      <div class="chips" id="availList"></div>
+    </div>
+  </section>
+
+  <div class="toolbar">
+    <div class="seg" role="group" aria-label="Filtro">
+      <button type="button" data-f="all" aria-pressed="true">Todas</button>
+      <button type="button" data-f="avail" aria-pressed="false">Disponibles</button>
+      <button type="button" data-f="blocked" aria-pressed="false">Bloqueadas</button>
+    </div>
+    <div class="hint">Rayado = bloqueada, con las correlativas que te faltan. Borde oscuro = la podés cursar.</div>
+  </div>
+
+  <main class="map" id="map"></main>
+
+  <details class="backup">
+    <summary>Respaldo y reinicio</summary>
+    <p class="hint" style="margin:8px 0 0">Para pasar tus datos a otro dispositivo, copiá el código y pegalo allá en este mismo cuadro.</p>
+    <textarea id="code" aria-label="Código de respaldo" placeholder="Pegá acá un código de respaldo"></textarea>
+    <div class="brow">
+      <button class="btn" type="button" id="bCopy">Copiar mi código</button>
+      <button class="btn" type="button" id="bLoad">Cargar código pegado</button>
+      <button class="btn danger" type="button" id="bReset">Borrar todo</button>
+      <button class="btn danger" type="button" id="bResetOk" hidden>Sí, borrar todo</button>
+    </div>
+    <p class="msg" id="msg" role="status"></p>
+  </details>
+</div>
+
+<aside class="panel" id="panel" hidden aria-label="Detalle de la materia"></aside>
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script>
+// ---------- Plan (fuente: plan de estudios impreso de Ingeniería Química) ----------
+// [id, nivel, nombre, horas anuales, correlativas para cursar: cursadas, aprobadas, nota]
+const RAW = [
+ [1,1,'Introducción a la Ingeniería Química',3,'',''],
+ [2,1,'Ingeniería y Sociedad',2,'',''],
+ [3,1,'Álgebra y Geometría Analítica',5,'',''],
+ [4,1,'Análisis Matemático I',5,'',''],
+ [5,1,'Física I',5,'',''],
+ [6,1,'Química',5,'',''],
+ [7,1,'Sistemas de Representación',2,'','','Se cursa en 2° año'],
+ [8,1,'Fundamentos de Informática',2,'',''],
+ [9,2,'Introducción a Equipos y Procesos',3,'1-6',''],
+ [10,2,'Probabilidad y Estadística',3,'3-4',''],
+ [11,2,'Química Inorgánica',4,'6',''],
+ [12,2,'Análisis Matemático II',5,'3-4',''],
+ [13,2,'Física II',5,'4-5',''],
+ [14,2,'Química Orgánica',5,'6',''],
+ [15,2,'Legislación',2,'1-2','','1° cuatrimestre'],
+ [16,2,'Inglés I',2,'',''],
+ [17,3,'Balances de Masa y Energía',3,'6-7-8-9-13','1-3-4'],
+ [18,3,'Termodinámica',4,'11-12-13','4-6'],
+ [19,3,'Matemática Superior Aplicada',3,'12','3-4'],
+ [20,3,'Ciencia de los Materiales',2,'9-11-14','1-6','1° cuatrimestre'],
+ [21,3,'Fisicoquímica',4,'9-12-13','3-4-6'],
+ [22,3,'Fenómenos de Transporte',5,'9-12-13','3-4-6'],
+ [23,3,'Química Analítica',4,'10-11-14','2-6'],
+ [24,3,'Microbiología y Química Biológica',3,'11-14','6'],
+ [25,3,'Química Aplicada',2,'9-11-13-14','1-2-6','2° cuatrimestre'],
+ [26,3,'Inglés II',2,'16',''],
+ [27,4,'Diseño, Simulación, Optimización y Seguridad de Procesos',4,'17-19','7-8-9-12-26'],
+ [28,4,'Operaciones Unitarias I',5,'17-18-22','9-12-13'],
+ [29,4,'Tecnología de la Energía Térmica',5,'17-18-21-22','9-12-13'],
+ [30,4,'Economía',3,'9','2-3'],
+ [31,4,'Operaciones Unitarias II',5,'18-21-22','9-12-13-14'],
+ [32,4,'Ingeniería de las Reacciones Químicas',5,'17-18-21-22','11-12-14'],
+ [33,4,'Calidad y Control Estadístico de Procesos',3,'10','4'],
+ [34,4,'Organización Industrial',3,'10','2-9-15'],
+ [35,5,'Control Automático de Procesos',4,'27-31','17-19-23'],
+ [36,5,'Mecánica Industrial',3,'9-21','5-11-20'],
+ [37,5,'Ingeniería Ambiental',3,'25-28-31-32','15-17-23'],
+ [38,5,'Procesos Biotecnológicos',3,'17-21-22-24','9-11-14'],
+ [39,5,'Higiene y Seguridad en el Trabajo',2,'11-14-17','9'],
+ [40,5,'Máquinas e Instalaciones Eléctricas',2,'28','9-13'],
+ [41,5,'Proyecto Final',4,'27-28-29-31-32-34','17-21-22-25-30'],
+ ['PPS',5,'Práctica Profesional Supervisada','150 h','27-28-29-31-32-34','17-21-22-25-30'],
+ ['E1','E','Corrosión Metálica y Protección',3,'11-14-21','9'],
+ ['E2','E','Energías Alternativas del Siglo XXI',3,'18-21-22','11-13'],
+ ['E3','E','Industrialización de Hidrocarburos',3,'28-29-31-32','18-21-22'],
+ ['E4','E','Introducción a la Energía Nuclear',2,'18-21-22','11-13','1° cuatrimestre'],
+ ['E5','E','Nanotecnología de los Materiales Porosos',2,'11-14-21','9','1° cuatrimestre'],
+ ['E6','E','Operaciones Logísticas',2,'27-34','15'],
+ ['E7','E','Protección de Materiales',3,'11-14-21','9'],
+ ['E8','E','Química Verde y Ecología Industrial',2,'11-14','6','2° cuatrimestre'],
+ ['E9','E','Responsabilidad Social Institucional',2,'15','1-2-8','1° o 2° cuatrimestre'],
+ ['E10','E','Retórica Profesional',3,'27-34','15'],
+];
+// Si el plan cambia, agregá acá correlativas extra. Ej.: {27:{cursada:[], aprobada:[16]}}
+const CAMBIOS = {};
+const HORAS_ELECTIVAS = 12;
+
+const split = s => s ? s.split('-').map(x => x.trim()) : [];
+const PLAN = RAW.map(([id,y,name,h,c,a,note]) => {
+  const k = String(id), ex = CAMBIOS[id] || {};
+  return {id:k, y:String(y), name, h, note:note||'',
+    c:[...split(c), ...(ex.cursada||[]).map(String)],
+    a:[...split(a), ...(ex.aprobada||[]).map(String)]};
+});
+const BY = Object.fromEntries(PLAN.map(m => [m.id, m]));
+const UNLOCKS = {};
+PLAN.forEach(m => [...m.c, ...m.a].forEach(r => (UNLOCKS[r] ||= new Set()).add(m.id)));
+
+const LEVELS = [['1','Primer nivel'],['2','Segundo nivel'],['3','Tercer nivel'],['4','Cuarto nivel'],['5','Quinto nivel'],['E','Electivas']];
+const STATES = {
+  aprobada:{label:'Aprobada', long:'Aprobada (promoción o final)'},
+  final:{label:'Debe final', long:'Regular, debe final'},
+  recursar:{label:'Recursar', long:'Tiene que recursarla'},
+  cursando:{label:'Cursando', long:'La está cursando'},
+};
+const CYCLE = [null,'aprobada','final','recursar','cursando'];
+const KEY = 'iq-utn-estado-v1';
+
+let st = {};
+try { st = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch(e) { st = {}; }
+let filter = 'all', open = null;
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(st)); } catch(e){} };
+
+const isOkCursada = id => st[id] === 'aprobada' || st[id] === 'final';
+const isOkAprob = id => st[id] === 'aprobada';
+function missing(m){
+  return {c:m.c.filter(r => !isOkCursada(r)), a:m.a.filter(r => !isOkAprob(r))};
+}
+const canTake = m => { const x = missing(m); return !x.c.length && !x.a.length; };
+const needsTaking = m => !st[m.id] || st[m.id] === 'recursar';
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+function metaLine(m){
+  const s = st[m.id], ok = canTake(m);
+  if (s && s !== 'recursar') return `<span class="tag">${STATES[s].label}</span>` + (ok ? '' : `<br><span class="warnline">⚠ Faltan correlativas: ${missingText(m)}</span>`);
+  const pre = s === 'recursar' ? `<span class="tag">Recursar</span> · ` : '';
+  if (ok) return pre + `<span class="tag">${m.c.length||m.a.length ? 'Disponible' : 'Sin correlativas'}</span>`;
+  return pre + 'Falta ' + missingText(m);
+}
+function missingText(m){
+  const x = missing(m), parts = [];
+  if (x.c.length) parts.push('cursada ' + x.c.join(', '));
+  if (x.a.length) parts.push('aprobada ' + x.a.join(', '));
+  return parts.join(' · ');
+}
+let toastT;
+function toast(t){ const el = document.getElementById('toast'); el.textContent = t; el.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => el.hidden = true, 3200); }
+
+const ICON = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="8" cy="8" r="6.3"/><path d="M8 7.2v4M8 4.7v.1" stroke-linecap="round"/></svg>';
+
+function renderMap(){
+  const map = document.getElementById('map');
+  map.innerHTML = LEVELS.map(([y,title]) => {
+    const ms = PLAN.filter(m => m.y === y);
+    const done = ms.filter(m => st[m.id] === 'aprobada').length;
+    return `<section class="col" aria-label="${title}"><div class="colhead"><h2>${title}</h2><span>${done}/${ms.length}</span></div>` +
+      ms.map(m => {
+        const s = st[m.id], ok = canTake(m);
+        const cls = ['card', s ? 's-'+s : '', needsTaking(m) ? (ok ? 'avail' : 'blocked') : ''].join(' ');
+        return `<div class="cw" data-id="${m.id}"><button type="button" class="${cls}" data-cycle="${m.id}" aria-label="${esc(m.id+' '+m.name)}: ${s?STATES[s].label:'sin cargar'}. Tocá para cambiar.">
+          <span class="num">${m.id}</span><span class="name">${esc(m.name)}</span><span class="meta">${metaLine(m)}</span></button>
+          <button type="button" class="info" data-open="${m.id}" aria-label="Ver correlativas de ${esc(m.name)}">${ICON}</button></div>`;
+      }).join('') + '</section>';
+  }).join('');
+  applyFocus(); applyFilter();
+}
+
+function renderSummary(){
+  const ob = PLAN.filter(m => m.y !== 'E');
+  const cnt = k => ob.filter(m => (st[m.id]||null) === k).length;
+  const order = ['aprobada','final','cursando','recursar'];
+  const col = {aprobada:'var(--ok-bd)',final:'var(--fin-bd)',cursando:'var(--now-bd)',recursar:'var(--redo-bd)'};
+  document.getElementById('bar').innerHTML = order.map(k => `<span style="width:${cnt(k)/ob.length*100}%;background:${col[k]}"></span>`).join('');
+  document.getElementById('legend').innerHTML = order.map(k => `<span><span class="sw ${k}"></span><b>${cnt(k)}</b>${STATES[k].label}</span>`).join('') +
+    `<span><span class="sw none"></span><b>${cnt(null)}</b>Sin cargar</span>`;
+  const elecH = PLAN.filter(m => m.y==='E' && st[m.id]==='aprobada').reduce((a,m)=>a+m.h,0);
+  const pct = Math.round(cnt('aprobada')/ob.length*100);
+  document.getElementById('stats').innerHTML =
+    `<span><strong>${pct}%</strong> de obligatorias aprobadas (${cnt('aprobada')} de ${ob.length})</span>` +
+    `<span><strong>${elecH}/${HORAS_ELECTIVAS}</strong> horas de electivas aprobadas</span>`;
+  const av = PLAN.filter(m => needsTaking(m) && canTake(m));
+  document.getElementById('availList').innerHTML = av.length
+    ? av.map(m => `<button type="button" class="chip${st[m.id]==='recursar'?' redo':''}" data-open="${m.id}"><span class="n">${m.id}</span>${esc(m.name)}${st[m.id]==='recursar'?' (recursar)':''}</button>`).join('')
+    : '<p class="empty">No queda ninguna materia disponible sin cargar.</p>';
+}
+
+function reqItem(r, type){
+  const m = BY[r], ok = type === 'c' ? isOkCursada(r) : isOkAprob(r);
+  const s = st[r];
+  return `<li><button type="button" data-open="${r}"><span class="mk ${ok?'ok':'no'}">${ok?'✓':'✗'}</span><span class="n">${r}</span><span>${esc(m.name)}<br><small>${s?STATES[s].label:'Sin cargar'}</small></span></button></li>`;
+}
+
+function renderPanel(){
+  const p = document.getElementById('panel');
+  if (!open) { p.hidden = true; return; }
+  const m = BY[open], s = st[m.id] || null, ok = canTake(m);
+  const lvl = LEVELS.find(l => l[0] === m.y)[1];
+  const unl = [...(UNLOCKS[m.id] || [])];
+  p.hidden = false;
+  p.innerHTML = `
+    <div class="phead"><span class="num">${m.id}</span><div><h3>${esc(m.name)}</h3>
+      <div class="pmeta">${lvl} · ${typeof m.h==='number'? m.h+' h anuales' : m.h}${m.note ? ' · '+esc(m.note) : ''}</div></div>
+      <button type="button" class="close" id="pclose" aria-label="Cerrar">×</button></div>
+    <div class="pstates" role="group" aria-label="Estado">
+      ${CYCLE.map(k => `<button type="button" class="pbtn" data-set="${k||''}" aria-pressed="${s===k}"${k && !ok ? ' disabled' : ''}><span class="sw ${k||'none'}"></span>${k?STATES[k].label:'Sin cargar'}</button>`).join('')}
+    </div>
+    <div class="verdict ${ok?'yes':'no'}">${ok ? (m.c.length||m.a.length ? '<b>Podés cursarla.</b> Cumplís todas las correlativas.' : '<b>Podés cursarla.</b> No tiene correlativas.') : '<b>Todavía no podés cursarla.</b> Te faltan las marcadas con ✗. Hasta que las cargues, solo puede quedar sin cargar.'}</div>
+    ${m.c.length ? `<div class="psec"><h4>Cursadas (regular o aprobada)</h4><ul class="rlist">${m.c.map(r=>reqItem(r,'c')).join('')}</ul></div>` : ''}
+    ${m.a.length ? `<div class="psec"><h4>Aprobadas</h4><ul class="rlist">${m.a.map(r=>reqItem(r,'a')).join('')}</ul></div>` : ''}
+    ${unl.length ? `<div class="psec"><h4>Es correlativa de</h4><ul class="rlist">${unl.map(u => { const um = BY[u], uok = canTake(um); return `<li><button type="button" data-open="${u}"><span class="mk ${uok?'ok':''}">${uok?'✓':'·'}</span><span class="n">${u}</span><span>${esc(um.name)}</span></button></li>`; }).join('')}</ul></div>` : ''}
+  `;
+}
+
+function applyFocus(){
+  const map = document.getElementById('map');
+  map.classList.toggle('focus', !!open);
+  map.querySelectorAll('.cw').forEach(el => {
+    const id = el.dataset.id, m = open && BY[open];
+    el.classList.toggle('f-self', id === open);
+    el.classList.toggle('f-req', !!m && (m.c.includes(id) || m.a.includes(id)));
+    el.classList.toggle('f-unl', !!m && !!UNLOCKS[open] && UNLOCKS[open].has(id));
+  });
+}
+function applyFilter(){
+  const map = document.getElementById('map');
+  map.classList.toggle('dimfilter', filter !== 'all');
+  map.querySelectorAll('.cw').forEach(el => {
+    const m = BY[el.dataset.id], need = needsTaking(m), ok = canTake(m);
+    const on = filter === 'all' || (filter === 'avail' ? need && ok : need && !ok);
+    el.classList.toggle('off', !on);
+  });
+}
+
+function setState(id, k){
+  if (k) st[id] = k; else delete st[id];
+  save(); renderAll();
+}
+function renderAll(){ renderMap(); renderSummary(); renderPanel(); }
+
+document.addEventListener('click', e => {
+  const cyc = e.target.closest('[data-cycle]');
+  if (cyc) { const id = cyc.dataset.cycle, i = CYCLE.indexOf(st[id] || null);
+    if (!canTake(BY[id])) {
+      if (!st[id]) { cyc.classList.remove('nope'); void cyc.offsetWidth; cyc.classList.add('nope');
+        toast(`No podés cargar la ${id} todavía. Falta ${missingText(BY[id])}.`); return; }
+      setState(id, null); toast(`La ${id} volvió a sin cargar porque le faltan correlativas.`);
+      const nb0 = document.querySelector(`[data-cycle="${CSS.escape(id)}"]`); nb0 && nb0.focus(); return; }
+    setState(id, CYCLE[(i+1) % CYCLE.length]);
+    const nb = document.querySelector(`[data-cycle="${CSS.escape(id)}"]`); nb && nb.focus(); return; }
+  const op = e.target.closest('[data-open]');
+  if (op) { open = op.dataset.open; renderPanel(); applyFocus(); const pc = document.getElementById('pclose'); pc && pc.focus({preventScroll:true}); return; }
+  const set = e.target.closest('[data-set]');
+  if (set) { if (set.disabled) return; setState(open, set.dataset.set || null); return; }
+  if (e.target.closest('#pclose')) { const was = open; open = null; renderPanel(); applyFocus();
+    const ib = document.querySelector(`[data-open="${CSS.escape(was)}"].info`); ib && ib.focus(); return; }
+  const f = e.target.closest('[data-f]');
+  if (f) { filter = f.dataset.f; document.querySelectorAll('[data-f]').forEach(b => b.setAttribute('aria-pressed', b === f)); applyFilter(); }
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && open) { open = null; renderPanel(); applyFocus(); } });
+
+// respaldo
+const msg = t => document.getElementById('msg').textContent = t;
+document.getElementById('bCopy').onclick = () => {
+  const code = btoa(unescape(encodeURIComponent(JSON.stringify(st))));
+  const ta = document.getElementById('code'); ta.value = code;
+  navigator.clipboard?.writeText(code).then(() => msg('Código copiado.'), () => { ta.select(); msg('Seleccioná y copiá el código del cuadro.'); })
+    ?? (ta.select(), msg('Seleccioná y copiá el código del cuadro.'));
+};
+document.getElementById('bLoad').onclick = () => {
+  try {
+    const obj = JSON.parse(decodeURIComponent(escape(atob(document.getElementById('code').value.trim()))));
+    const clean = {}; Object.entries(obj).forEach(([k,v]) => { if (BY[k] && STATES[v]) clean[k] = v; });
+    st = clean; save(); renderAll(); msg(`Listo, se cargaron ${Object.keys(clean).length} materias.`);
+  } catch(e) { msg('Ese código no es válido. Copialo de nuevo completo desde el otro dispositivo.'); }
+};
+document.getElementById('bReset').onclick = () => { document.getElementById('bResetOk').hidden = false; msg('Esto borra todos los estados cargados.'); };
+document.getElementById('bResetOk').onclick = () => { st = {}; save(); open = null; renderAll(); document.getElementById('bResetOk').hidden = true; msg('Se borró todo.'); };
+
+renderAll();
+</script>
+<script>
+if ('serviceWorker' in navigator) window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
+</script>
+</body>
+</html>
