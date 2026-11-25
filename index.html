@@ -164,17 +164,61 @@ details.backup summary{cursor:pointer;font-family:var(--f-display);font-weight:6
 .btn.danger{border-color:var(--redo-bd);color:var(--redo)}
 textarea{width:100%;min-height:70px;margin-top:10px;font:12px/1.4 ui-monospace,Menlo,Consolas,monospace;background:var(--paper);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:8px}
 .msg{font-size:13px;color:var(--muted);margin:8px 0 0;min-height:1em}
+/* horarios */
+.clashline{color:var(--redo);font-weight:700}
+.chip .clk{color:var(--redo);font-weight:700}
+.clashbox{border:1.5px solid var(--redo-bd);background:var(--redo-bg);border-radius:8px;padding:10px 12px;display:grid;gap:6px;font-size:14px}
+.clashbox ul{margin:0;padding-left:18px;display:grid;gap:4px}
+.clashbox p{margin:0}
+.softbox{border:1px dashed var(--line);border-radius:8px;padding:8px 12px;font-size:13.5px;color:var(--muted);display:grid;gap:4px}
+.softbox ul{margin:0;padding-left:18px}
+.okline{margin:0;color:var(--ok);font-weight:700;font-size:14px}
+.slots{list-style:none;margin:0;padding:0;display:grid;gap:2px;font-size:14px}
+.slots b{font-family:var(--f-display);font-size:16px;display:inline-block;min-width:5.6em}
+.hed{display:grid;gap:10px}
+.hed label{font-size:13px;color:var(--muted);display:grid;gap:3px}
+.hed select,.hed input,.hsec select{font:inherit;font-size:14px;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:5px 6px;min-width:0;width:100%}
+.hgrid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px}
+.hrow{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr) minmax(0,1fr) 32px;gap:6px;align-items:end}
+.xbtn{font:inherit;font-size:18px;line-height:1;width:32px;height:32px;border-radius:6px;border:1px solid var(--line);background:var(--card);color:var(--redo);cursor:pointer}
+@media (max-width:480px){.hrow{grid-template-columns:minmax(0,1fr) minmax(0,1fr) 32px}.hrow label:first-child{grid-column:1/-1}}
+.herr{color:var(--redo);font-size:13px;margin:0;min-height:1em}
+.hsec{gap:12px}
+.hhead{display:flex;flex-wrap:wrap;gap:6px 16px;align-items:baseline;justify-content:space-between}
+.hhead h2{font-size:26px}
+.hsec .seg{flex-wrap:wrap}
+.week{display:grid;gap:10px}
+@media (max-width:760px){.week{grid-template-columns:minmax(0,1fr)!important}}
+.day h3{font-size:16px;text-transform:uppercase;letter-spacing:.08em;border-bottom:1px solid var(--line);padding-bottom:3px;margin-bottom:6px}
+.day .empty{font-size:13px}
+.ev{width:100%;text-align:left;font:inherit;color:var(--ink);border:1.5px solid var(--now-bd);background:var(--now-bg);border-radius:7px;padding:6px 8px;display:grid;gap:2px;cursor:pointer;margin-bottom:6px;font-size:13px;line-height:1.25}
+.ev.opt{background:var(--card);border-style:dashed;border-color:var(--ink)}
+.ev.hit{border-color:var(--redo-bd);box-shadow:inset 4px 0 0 var(--redo)}
+.ev .t{font-family:var(--f-display);font-weight:700;font-size:15px;font-variant-numeric:tabular-nums}
+.ev .w{color:var(--redo);font-weight:700}
+.ev small{color:var(--muted)}
+.chk{display:inline-flex;gap:8px;align-items:center;font-size:14px;cursor:pointer}
+.chk input{width:18px;height:18px;accent-color:var(--ink)}
+.hlist{display:grid}
+.hline{display:grid;grid-template-columns:2.4em minmax(0,1.3fr) minmax(0,1.5fr) auto;gap:4px 12px;align-items:center;padding:8px 2px;border-bottom:1px solid var(--line);font-size:14px}
+.hline .n{font-family:var(--f-display);font-weight:700;font-size:18px}
+.hline .nm{font-weight:700;overflow-wrap:anywhere}
+.hline .nm small{display:block;font-weight:400;color:var(--muted)}
+.hline .hs{font-variant-numeric:tabular-nums}
+.hline .hs .w{color:var(--redo);font-weight:700;display:block}
+.btn.sm{font-size:13px;padding:5px 10px}
+@media (max-width:600px){.hline{grid-template-columns:2.4em minmax(0,1fr) auto}.hline .hs{grid-column:2;grid-row:2}.hline .btn{grid-column:3;grid-row:1}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
-
 </head>
 <body>
+
 <div class="wrap">
   <header class="top">
     <div>
       <div class="eyebrow">UTN · Plan de estudios</div>
       <h1>Ingeniería Química</h1>
-      <p class="how">Tocá una materia disponible para cambiar su estado: <b>aprobada</b> (verde), <b>debés final</b> (amarillo), <b>recursar</b> (rojo), <b>cursando</b> (azul) y de nuevo <b>sin cargar</b>. El ícono <b>i</b> muestra sus correlativas. Lo que cargás se guarda en este navegador.</p>
+      <p class="how">Tocá una materia disponible para cambiar su estado: <b>aprobada</b> (verde), <b>debés final</b> (amarillo), <b>recursar</b> (rojo), <b>cursando</b> (azul) y de nuevo <b>sin cargar</b>. El ícono <b>i</b> muestra sus correlativas y su horario. Si una materia se superpone en horario con otra que estás cursando, aparece marcada con ⏰. Lo que cargás se guarda en este navegador.</p>
     </div>
   </header>
 
@@ -202,9 +246,23 @@ textarea{width:100%;min-height:70px;margin-top:10px;font:12px/1.4 ui-monospace,M
 
   <main class="map" id="map"></main>
 
+  <section class="box hsec" id="horarios" aria-label="Horarios de cursado">
+    <div class="hhead">
+      <h2>Horarios de cursado</h2>
+      <span class="hint">Vienen cargados los horarios 2025 de la facultad. Si cambian, tocá <b>Editar</b> en la materia.</span>
+    </div>
+    <div class="seg" role="group" aria-label="Vista de horarios" id="hfil"></div>
+    <div id="hbody"></div>
+    <div class="brow" style="margin:0">
+      <button class="btn" type="button" id="bHorReset">Restaurar horarios originales</button>
+      <button class="btn danger" type="button" id="bHorResetOk" hidden>Sí, restaurar</button>
+    </div>
+    <p class="msg" id="hmsg" role="status" style="margin:0"></p>
+  </section>
+
   <details class="backup">
     <summary>Respaldo y reinicio</summary>
-    <p class="hint" style="margin:8px 0 0">Para pasar tus datos a otro dispositivo, copiá el código y pegalo allá en este mismo cuadro.</p>
+    <p class="hint" style="margin:8px 0 0">Para pasar tus datos a otro dispositivo, copiá el código y pegalo allá en este mismo cuadro. Incluye los horarios que hayas editado.</p>
     <textarea id="code" aria-label="Código de respaldo" placeholder="Pegá acá un código de respaldo"></textarea>
     <div class="brow">
       <button class="btn" type="button" id="bCopy">Copiar mi código</button>
@@ -315,11 +373,114 @@ const canTake = m => { const x = missing(m); return !x.c.length && !x.a.length; 
 const needsTaking = m => !st[m.id] || st[m.id] === 'recursar';
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 
+// ---------- Horarios (fuente: horarios 2025 de la facultad, 1° a 5° año y electivas) ----------
+// [id del plan, cuatrimestre (A = anual, 1C, 2C), aula, 'Día desde-hasta, Día desde-hasta']
+// Ojo: las electivas tienen otra numeración en la grilla de horarios; acá se usan los números del plan.
+const HOR_RAW = [
+ [1,'A','92','Mar 18:45-21:00'],
+ [2,'A','92','Vie 16:30-18:00'],
+ [3,'A','92','Lun 18:00-22:00'],
+ [4,'A','92','Mié 16:45-20:45'],
+ [5,'A','92','Vie 18:45-22:45'],
+ [6,'A','92','Jue 17:00-21:00'],
+ [7,'A','Aula de dibujo','Lun 15:30-17:45'],
+ [8,'A','92','Mar 21:00-22:30'],
+ [9,'A','91','Jue 19:15-21:30'],
+ [10,'A','91','Lun 17:45-20:00'],
+ [11,'A','91','Mar 19:15-22:30'],
+ [12,'A','91','Mié 16:15-18:15, Vie 19:15-21:00'],
+ [13,'A','91','Mié 18:15-22:15'],
+ [14,'A','91','Mar 17:00-19:15, Vie 17:00-18:30'],
+ [15,'1C','91','Lun 20:00-23:00'],
+ [17,'A','101','Mar 20:00-22:15'],
+ [18,'A','101','Lun 17:00-20:00'],
+ [19,'A','101 (Gabinete)','Lun 20:00-22:15'],
+ [20,'1C','101','Mié 17:00-20:00'],
+ [21,'A','101','Mar 17:00-20:00'],
+ [22,'A','101','Jue 17:30-19:00, Vie 17:45-20:00'],
+ [23,'A','101','Mié 20:00-21:30, Vie 20:15-21:45'],
+ [24,'A','101','Jue 19:15-21:30'],
+ [25,'2C','101','Mié 17:00-20:00'],
+ [27,'A','102','Vie 19:30-22:30'],
+ [28,'A','102','Lun 20:45-23:00, Jue 20:45-22:15'],
+ [29,'A','102','Lun 18:30-20:45, Jue 19:15-20:45'],
+ [30,'A','102','Mié 19:30-21:45'],
+ [31,'A','102','Mié 17:00-19:15, Vie 18:00-19:30'],
+ [32,'A','102','Lun 17:00-18:30, Jue 17:00-19:15'],
+ [33,'A','102','Mar 19:15-21:30'],
+ [34,'A','102','Mar 17:00-19:15'],
+ [35,'A','103','Jue 20:00-23:00'],
+ [36,'A','103','Lun 20:00-22:15'],
+ [37,'A','103','Mar 17:00-19:15'],
+ [38,'A','103','Mar 19:15-21:30'],
+ [39,'1C','103','Lun 17:00-20:00'],
+ [40,'2C','103','Lun 17:00-20:00'],
+ [41,'A','103','Vie 19:30-22:30'],
+ ['E1','A','103','Mié 17:30-19:45'],
+ ['E2','A','Gabinete','Mié 20:00-22:15'],
+ ['E3','A','91','Jue 17:00-19:15'],
+ ['E4','2C','101','Mié 17:00-20:00'],
+ ['E5','1C','103','Jue 17:00-20:00'],
+ ['E6','A','103','Mié 20:00-21:30'],
+ ['E7','A','103','Vie 17:00-19:15'],
+ ['E8','1C','Gabinete','Mié 17:00-20:00'],
+ ['E9','1C','Aula depto. de Industrial','Jue 19:15-20:45, Vie 17:00-18:30'],
+ ['E10','A','Auditorio Química','Jue 14:30-16:45'],
+];
+const DAYS = ['Lun','Mar','Mié','Jue','Vie','Sáb'];
+const DAYS_L = ['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+const CUAT = {A:'Anual','1C':'1° cuatrimestre','2C':'2° cuatrimestre'};
+const pad = t => { const [h,m] = String(t).split(':'); return h.padStart(2,'0') + ':' + (m||'00').padStart(2,'0'); };
+const HOR_DEF = Object.fromEntries(HOR_RAW.map(([id,cu,aula,txt]) => [String(id), {cu, aula, s: txt.split(',').map(p => {
+  const [, d, f, t] = p.trim().match(/^(\S+)\s+(\d{1,2}:\d\d)-(\d{1,2}:\d\d)$/);
+  return [DAYS.indexOf(d), pad(f), pad(t)];
+})}]));
+const HKEY = 'iq-utn-horarios-v1';
+const TIME_RE = /^\d\d:\d\d$/;
+function cleanHor(obj){
+  const out = {};
+  Object.entries(obj || {}).forEach(([k,v]) => {
+    if (!BY[k] || !v || !CUAT[v.cu] || !Array.isArray(v.s)) return;
+    const s = v.s.filter(x => Array.isArray(x) && Number.isInteger(x[0]) && x[0] >= 0 && x[0] <= 5 && TIME_RE.test(x[1]) && TIME_RE.test(x[2]) && x[1] < x[2]).map(x => [x[0], x[1], x[2]]);
+    out[k] = {cu: v.cu, aula: String(v.aula || '').slice(0, 60), s};
+  });
+  return out;
+}
+let horEdit = {};
+try { horEdit = cleanHor(JSON.parse(localStorage.getItem(HKEY) || '{}')); } catch(e) { horEdit = {}; }
+const saveHor = () => { try { localStorage.setItem(HKEY, JSON.stringify(horEdit)); } catch(e){} };
+const hor = id => horEdit[id] || HOR_DEF[id] || null;
+const toMin = t => { const [h,m] = t.split(':').map(Number); return h*60 + m; };
+const cuatOverlap = (a, b) => a === 'A' || b === 'A' || a === b;
+const slotTxt = x => `${DAYS[x[0]]} ${x[1]}–${x[2]}`;
+const aulaTxt = a => a ? (/^\d/.test(a) ? 'Aula ' + a : a) : '';
+// superposiciones entre dos materias: [[franja de a, franja de b], ...]
+function clashDetail(a, b){
+  const ha = hor(a), hb = hor(b);
+  if (!ha || !hb || !cuatOverlap(ha.cu, hb.cu)) return [];
+  const out = [];
+  ha.s.forEach(x => hb.s.forEach(y => {
+    if (x[0] === y[0] && toMin(x[1]) < toMin(y[2]) && toMin(y[1]) < toMin(x[2])) out.push([x, y]);
+  }));
+  return out;
+}
+const clashWith = (id, pool) => pool.filter(o => o !== id).map(o => ({id:o, ov:clashDetail(id, o)})).filter(c => c.ov.length);
+const activeIds = () => PLAN.filter(m => st[m.id] === 'cursando').map(m => m.id);
+const optionIds = () => PLAN.filter(m => needsTaking(m) && canTake(m)).map(m => m.id);
+const checksClash = m => st[m.id] === 'cursando' || (needsTaking(m) && canTake(m));
+function clashLine(m){
+  if (!checksClash(m)) return '';
+  const c = clashWith(m.id, activeIds());
+  return c.length ? `<br><span class="clashline">⏰ Choca con ${c.map(x => x.id).join(', ')}</span>` : '';
+}
+const ovTxt = (o, ov) => ov.map(([x, y]) => `${DAYS_L[x[0]]}: esta de ${x[1]} a ${x[2]} y la ${o} de ${y[1]} a ${y[2]}`).join('; ');
+const SUGERENCIA = '<b>Sugerencia: hablá con los profesores.</b> Por lo general algunos te dejan cursarla o rendirla igual sin necesidad de asistir a todas las clases.';
+
 function metaLine(m){
   const s = st[m.id], ok = canTake(m);
-  if (s && s !== 'recursar') return `<span class="tag">${STATES[s].label}</span>` + (ok ? '' : `<br><span class="warnline">⚠ Faltan correlativas: ${missingText(m)}</span>`);
+  if (s && s !== 'recursar') return `<span class="tag">${STATES[s].label}</span>` + (ok ? '' : `<br><span class="warnline">⚠ Faltan correlativas: ${missingText(m)}</span>`) + clashLine(m);
   const pre = s === 'recursar' ? `<span class="tag">Recursar</span> · ` : '';
-  if (ok) return pre + `<span class="tag">${m.c.length||m.a.length ? 'Disponible' : 'Sin correlativas'}</span>`;
+  if (ok) return pre + `<span class="tag">${m.c.length||m.a.length ? 'Disponible' : 'Sin correlativas'}</span>` + clashLine(m);
   return pre + 'Falta ' + missingText(m);
 }
 function missingText(m){
@@ -365,7 +526,8 @@ function renderSummary(){
     `<span><strong>${elecH}/${HORAS_ELECTIVAS}</strong> horas de electivas aprobadas</span>`;
   const av = PLAN.filter(m => needsTaking(m) && canTake(m));
   document.getElementById('availList').innerHTML = av.length
-    ? av.map(m => `<button type="button" class="chip${st[m.id]==='recursar'?' redo':''}" data-open="${m.id}"><span class="n">${m.id}</span>${esc(m.name)}${st[m.id]==='recursar'?' (recursar)':''}</button>`).join('')
+    ? av.map(m => { const ch = clashWith(m.id, activeIds()).length;
+        return `<button type="button" class="chip${st[m.id]==='recursar'?' redo':''}" data-open="${m.id}"${ch?' title="Choca de horario con una materia que estás cursando"':''}><span class="n">${m.id}</span>${esc(m.name)}${st[m.id]==='recursar'?' (recursar)':''}${ch?' <span class="clk" aria-label="choca de horario">⏰</span>':''}</button>`; }).join('')
     : '<p class="empty">No queda ninguna materia disponible sin cargar.</p>';
 }
 
@@ -377,6 +539,7 @@ function reqItem(r, type){
 
 function renderPanel(){
   const p = document.getElementById('panel');
+  if (editing && editing !== open) { editing = null; draft = null; }
   if (!open) { p.hidden = true; return; }
   const m = BY[open], s = st[m.id] || null, ok = canTake(m);
   const lvl = LEVELS.find(l => l[0] === m.y)[1];
@@ -390,10 +553,121 @@ function renderPanel(){
       ${CYCLE.map(k => `<button type="button" class="pbtn" data-set="${k||''}" aria-pressed="${s===k}"${k && !ok ? ' disabled' : ''}><span class="sw ${k||'none'}"></span>${k?STATES[k].label:'Sin cargar'}</button>`).join('')}
     </div>
     <div class="verdict ${ok?'yes':'no'}">${ok ? (m.c.length||m.a.length ? '<b>Podés cursarla.</b> Cumplís todas las correlativas.' : '<b>Podés cursarla.</b> No tiene correlativas.') : '<b>Todavía no podés cursarla.</b> Te faltan las marcadas con ✗. Hasta que las cargues, solo puede quedar sin cargar.'}</div>
+    ${horSection(m)}
     ${m.c.length ? `<div class="psec"><h4>Cursadas (regular o aprobada)</h4><ul class="rlist">${m.c.map(r=>reqItem(r,'c')).join('')}</ul></div>` : ''}
     ${m.a.length ? `<div class="psec"><h4>Aprobadas</h4><ul class="rlist">${m.a.map(r=>reqItem(r,'a')).join('')}</ul></div>` : ''}
     ${unl.length ? `<div class="psec"><h4>Es correlativa de</h4><ul class="rlist">${unl.map(u => { const um = BY[u], uok = canTake(um); return `<li><button type="button" data-open="${u}"><span class="mk ${uok?'ok':''}">${uok?'✓':'·'}</span><span class="n">${u}</span><span>${esc(um.name)}</span></button></li>`; }).join('')}</ul></div>` : ''}
   `;
+}
+
+// ---------- Horario en el panel ----------
+let editing = null, draft = null, herr = '';
+function horSection(m){
+  if (editing === m.id) return horEditor(m);
+  const h = hor(m.id);
+  let html = `<div class="psec"><h4>Horario de cursado${horEdit[m.id] ? ' (editado por vos)' : ''}</h4>`;
+  if (!h || !h.s.length) html += '<p class="empty">No hay horario cargado para esta materia.</p>';
+  else html += `<div class="pmeta" style="margin:0">${CUAT[h.cu]}${h.aula ? ' · ' + esc(aulaTxt(h.aula)) : ''}</div>
+    <ul class="slots">${h.s.map(x => `<li><b>${DAYS_L[x[0]]}</b> ${x[1]} a ${x[2]}</li>`).join('')}</ul>`;
+  if (h && h.s.length && checksClash(m)) {
+    const act = activeIds();
+    const hard = clashWith(m.id, act);
+    const soft = clashWith(m.id, optionIds().filter(id => !act.includes(id)));
+    if (hard.length) html += `<div class="clashbox"><b>⏰ Choque de horario con lo que estás cursando</b>
+      <ul>${hard.map(c => `<li>Con la <b>${c.id} ${esc(BY[c.id].name)}</b> (cursando): ${ovTxt(c.id, c.ov)}.</li>`).join('')}</ul>
+      <p>No te bloquea la materia, es solo un aviso. ${SUGERENCIA}</p></div>`;
+    else if (act.some(id => id !== m.id)) html += '<p class="okline">✓ No choca con las materias que estás cursando.</p>';
+    if (soft.length) html += `<div class="softbox"><span>Si además te anotás en estas que podés cursar, también se superponen:</span>
+      <ul>${soft.map(c => `<li><b>${c.id}</b> ${esc(BY[c.id].name)}: ${c.ov.map(([x, y]) => `${DAYS[x[0]]} ${y[1]}–${y[2]}`).join(', ')}</li>`).join('')}</ul></div>`;
+  }
+  return html + `<div class="brow" style="margin:0"><button class="btn sm" type="button" data-hedit="${m.id}">Editar horario</button></div></div>`;
+}
+function startEdit(id){
+  const h = hor(id) || {cu:'A', aula:'', s:[]};
+  editing = id; herr = '';
+  draft = {cu:h.cu, aula:h.aula || '', s:h.s.map(x => [...x])};
+  if (!draft.s.length) draft.s.push([0, '18:00', '20:00']);
+}
+function readDraft(){
+  const p = document.getElementById('panel');
+  draft.cu = p.querySelector('#hcu').value;
+  draft.aula = p.querySelector('#haula').value.trim();
+  draft.s = [...p.querySelectorAll('.hrow')].map(r => [+r.querySelector('.hd').value, r.querySelector('.hf').value, r.querySelector('.ht').value]);
+}
+function horEditor(m){
+  return `<div class="psec hed"><h4>Editar horario</h4>
+    <div class="hgrid2">
+      <label>Cursado<select id="hcu">${Object.entries(CUAT).map(([k,l]) => `<option value="${k}"${draft.cu===k?' selected':''}>${l}</option>`).join('')}</select></label>
+      <label>Aula<input id="haula" type="text" maxlength="60" value="${esc(draft.aula)}" placeholder="Ej.: 101"></label>
+    </div>
+    ${draft.s.map((x, i) => `<div class="hrow">
+      <label>Día<select class="hd">${DAYS_L.map((d, k) => `<option value="${k}"${x[0]===k?' selected':''}>${d}</option>`).join('')}</select></label>
+      <label>Desde<input class="hf" type="time" step="300" value="${x[1]}"></label>
+      <label>Hasta<input class="ht" type="time" step="300" value="${x[2]}"></label>
+      <button type="button" class="xbtn" data-hdel="${i}" aria-label="Quitar ${DAYS_L[x[0]]}">×</button></div>`).join('')}
+    ${draft.s.length ? '' : '<p class="empty">Sin días: la materia queda sin horario.</p>'}
+    <div class="brow" style="margin:0"><button class="btn sm" type="button" data-hadd>+ Agregar día</button></div>
+    <p class="herr" role="alert">${esc(herr)}</p>
+    <div class="brow" style="margin:0">
+      <button class="btn" type="button" data-hsave>Guardar horario</button>
+      <button class="btn" type="button" data-hcancel>Cancelar</button>
+      ${horEdit[m.id] && HOR_DEF[m.id] ? '<button class="btn danger" type="button" data-hrevert>Volver al original</button>' : ''}
+    </div></div>`;
+}
+function saveDraft(){
+  readDraft();
+  const bad = draft.s.findIndex(x => !TIME_RE.test(x[1]) || !TIME_RE.test(x[2]) || x[1] >= x[2]);
+  if (bad >= 0) { herr = `Revisá el ${DAYS_L[draft.s[bad][0]]}: la hora de inicio tiene que ser anterior a la de fin.`; renderPanel(); return; }
+  const id = editing, def = HOR_DEF[id];
+  const val = {cu:draft.cu, aula:draft.aula, s:draft.s.sort((a, b) => a[0] - b[0] || a[1].localeCompare(b[1]))};
+  if (def && JSON.stringify(def) === JSON.stringify(val)) delete horEdit[id]; else horEdit[id] = val;
+  saveHor(); editing = null; draft = null; renderAll(); toast(`Horario de la ${id} guardado.`);
+}
+
+// ---------- Sección de horarios ----------
+let hview = 'week', hopt = false;
+function renderHor(){
+  const segs = [['week','Mi semana'], ...LEVELS.map(([y]) => [y, y === 'E' ? 'Electivas' : y + '° año'])];
+  document.getElementById('hfil').innerHTML = segs.map(([k, l]) => `<button type="button" data-hv="${k}" aria-pressed="${hview === k}">${l}</button>`).join('');
+  document.getElementById('hbody').innerHTML = hview === 'week' ? renderWeek() : renderHorList(hview);
+}
+function renderWeek(){
+  const act = activeIds(), opts = hopt ? optionIds().filter(id => !act.includes(id)) : [];
+  const head = `<label class="chk"><input type="checkbox" id="hopt"${hopt ? ' checked' : ''}> Sumar las materias que podés cursar (con borde punteado)</label>`;
+  if (!act.length && !opts.length) return head + '<p class="empty">Marcá materias como <b>cursando</b> (azul) para armar tu semana, o sumá las que podés cursar para ver cómo te quedaría.</p>';
+  const pairs = [];
+  act.forEach((a, i) => act.slice(i + 1).forEach(b => { const ov = clashDetail(a, b); if (ov.length) pairs.push([a, b, ov]); }));
+  let html = head;
+  if (pairs.length) html += `<div class="clashbox"><b>⏰ ${pairs.length === 1 ? 'Hay 1 choque' : `Hay ${pairs.length} choques`} entre materias que estás cursando</b>
+    <ul>${pairs.map(([a, b, ov]) => `<li><b>${a} ${esc(BY[a].name)}</b> y <b>${b} ${esc(BY[b].name)}</b>: ${ov.map(([x, y]) => `${DAYS_L[x[0]]} ${x[1]}–${x[2]} / ${y[1]}–${y[2]}`).join('; ')}</li>`).join('')}</ul>
+    <p>${SUGERENCIA}</p></div>`;
+  else if (act.length > 1) html += '<p class="okline">✓ Las materias que estás cursando no se superponen.</p>';
+  const evs = [];
+  [...act, ...opts].forEach(id => { const h = hor(id); if (h) h.s.forEach(x => evs.push({id, x, cu:h.cu, opt:!act.includes(id)})); });
+  const noH = [...act, ...opts].filter(id => !hor(id) || !hor(id).s.length);
+  const nd = evs.some(e => e.x[0] === 5) ? 6 : 5;
+  html += `<div class="week" style="grid-template-columns:repeat(${nd},minmax(0,1fr))">` + DAYS_L.slice(0, nd).map((dn, d) => {
+    const list = evs.filter(e => e.x[0] === d).sort((a, b) => a.x[1].localeCompare(b.x[1]));
+    return `<div class="day"><h3>${dn}</h3>` + (list.length ? list.map(e => {
+      const hits = act.filter(o => o !== e.id && clashDetail(e.id, o).some(([x]) => x === e.x));
+      return `<button type="button" class="ev${e.opt ? ' opt' : ''}${hits.length ? ' hit' : ''}" data-open="${e.id}">
+        <span class="t">${e.x[1]}–${e.x[2]}</span><span><b>${e.id}</b> ${esc(BY[e.id].name)}</span>
+        <small>${e.cu === 'A' ? 'Anual' : e.cu}${e.opt ? ' · podés cursarla' : ''}</small>
+        ${hits.length ? `<span class="w">⏰ Choca con ${hits.join(', ')}</span>` : ''}</button>`;
+    }).join('') : '<p class="empty">Libre</p>') + '</div>';
+  }).join('') + '</div>';
+  if (noH.length) html += `<p class="hint" style="margin:0">Sin horario cargado: ${noH.map(id => `${id} ${esc(BY[id].name)}`).join(', ')}.</p>`;
+  return html;
+}
+function renderHorList(y){
+  const act = activeIds();
+  return '<div class="hlist">' + PLAN.filter(m => m.y === y).map(m => {
+    const h = hor(m.id), hit = checksClash(m) ? clashWith(m.id, act) : [];
+    return `<div class="hline"><span class="n">${m.id}</span>
+      <span class="nm">${esc(m.name)}<small>${h ? CUAT[h.cu] + (h.aula ? ' · ' + esc(aulaTxt(h.aula)) : '') : 'Sin horario'}${horEdit[m.id] ? ' · editado' : ''}</small></span>
+      <span class="hs">${h && h.s.length ? h.s.map(slotTxt).join('<br>') : '—'}${hit.length ? `<span class="w">⏰ Choca con ${hit.map(c => c.id).join(', ')}</span>` : ''}</span>
+      <button class="btn sm" type="button" data-hedit="${m.id}" aria-label="Editar horario de ${esc(m.name)}">Editar</button></div>`;
+  }).join('') + '</div>';
 }
 
 function applyFocus(){
@@ -420,9 +694,19 @@ function setState(id, k){
   if (k) st[id] = k; else delete st[id];
   save(); renderAll();
 }
-function renderAll(){ renderMap(); renderSummary(); renderPanel(); }
+function renderAll(){ renderMap(); renderSummary(); renderPanel(); renderHor(); }
 
 document.addEventListener('click', e => {
+  const he = e.target.closest('[data-hedit]');
+  if (he) { open = he.dataset.hedit; startEdit(open); renderPanel(); applyFocus(); const f = document.getElementById('hcu'); f && f.focus({preventScroll:true}); return; }
+  if (e.target.closest('[data-hadd]')) { readDraft(); const last = draft.s[draft.s.length - 1]; draft.s.push(last ? [Math.min(last[0] + 1, 5), last[1], last[2]] : [0, '18:00', '20:00']); renderPanel(); return; }
+  const hd = e.target.closest('[data-hdel]');
+  if (hd) { readDraft(); draft.s.splice(+hd.dataset.hdel, 1); renderPanel(); return; }
+  if (e.target.closest('[data-hsave]')) { saveDraft(); return; }
+  if (e.target.closest('[data-hcancel]')) { editing = null; draft = null; renderPanel(); return; }
+  if (e.target.closest('[data-hrevert]')) { const id = editing; delete horEdit[id]; saveHor(); editing = null; draft = null; renderAll(); toast(`La ${id} volvió al horario original.`); return; }
+  const hv = e.target.closest('[data-hv]');
+  if (hv) { hview = hv.dataset.hv; renderHor(); return; }
   const cyc = e.target.closest('[data-cycle]');
   if (cyc) { const id = cyc.dataset.cycle, i = CYCLE.indexOf(st[id] || null);
     if (!canTake(BY[id])) {
@@ -442,11 +726,19 @@ document.addEventListener('click', e => {
   if (f) { filter = f.dataset.f; document.querySelectorAll('[data-f]').forEach(b => b.setAttribute('aria-pressed', b === f)); applyFilter(); }
 });
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && open) { open = null; renderPanel(); applyFocus(); } });
+document.addEventListener('change', e => { if (e.target.id === 'hopt') { hopt = e.target.checked; renderHor(); const c = document.getElementById('hopt'); c && c.focus(); } });
+const hmsg = t => document.getElementById('hmsg').textContent = t;
+document.getElementById('bHorReset').onclick = () => {
+  const n = Object.keys(horEdit).length;
+  if (!n) { hmsg('No editaste ningún horario: ya están los originales.'); return; }
+  document.getElementById('bHorResetOk').hidden = false; hmsg(`Esto descarta tus cambios en ${n === 1 ? '1 materia' : n + ' materias'}.`);
+};
+document.getElementById('bHorResetOk').onclick = () => { horEdit = {}; saveHor(); editing = null; draft = null; renderAll(); document.getElementById('bHorResetOk').hidden = true; hmsg('Listo, volvieron los horarios originales.'); };
 
 // respaldo
 const msg = t => document.getElementById('msg').textContent = t;
 document.getElementById('bCopy').onclick = () => {
-  const code = btoa(unescape(encodeURIComponent(JSON.stringify(st))));
+  const code = btoa(unescape(encodeURIComponent(JSON.stringify(Object.keys(horEdit).length ? {st, hor:horEdit} : st))));
   const ta = document.getElementById('code'); ta.value = code;
   navigator.clipboard?.writeText(code).then(() => msg('Código copiado.'), () => { ta.select(); msg('Seleccioná y copiá el código del cuadro.'); })
     ?? (ta.select(), msg('Seleccioná y copiá el código del cuadro.'));
@@ -454,8 +746,11 @@ document.getElementById('bCopy').onclick = () => {
 document.getElementById('bLoad').onclick = () => {
   try {
     const obj = JSON.parse(decodeURIComponent(escape(atob(document.getElementById('code').value.trim()))));
-    const clean = {}; Object.entries(obj).forEach(([k,v]) => { if (BY[k] && STATES[v]) clean[k] = v; });
-    st = clean; save(); renderAll(); msg(`Listo, se cargaron ${Object.keys(clean).length} materias.`);
+    const isNew = obj && typeof obj.st === 'object' && obj.st !== null;
+    const clean = {}; Object.entries(isNew ? obj.st : obj).forEach(([k,v]) => { if (BY[k] && STATES[v]) clean[k] = v; });
+    st = clean; save();
+    const hn = isNew && obj.hor ? Object.keys(horEdit = cleanHor(obj.hor)).length : 0; if (hn) saveHor();
+    renderAll(); msg(`Listo, se cargaron ${Object.keys(clean).length} materias${hn ? ` y ${hn} horarios editados` : ''}.`);
   } catch(e) { msg('Ese código no es válido. Copialo de nuevo completo desde el otro dispositivo.'); }
 };
 document.getElementById('bReset').onclick = () => { document.getElementById('bResetOk').hidden = false; msg('Esto borra todos los estados cargados.'); };
