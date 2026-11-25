@@ -1,5 +1,5 @@
 // Cambiá VERSION cada vez que actualices index.html para que los celulares bajen la versión nueva.
-const VERSION = 'v1';
+const VERSION = 'v2';
 const CACHE = 'correlativas-iq-' + VERSION;
 const FILES = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './icon-maskable-512.png', './apple-touch-icon.png'];
 
